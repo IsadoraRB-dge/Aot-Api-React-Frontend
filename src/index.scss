@@ -1,0 +1,11 @@
+// 1. Deve vir PRIMEIRO: Importa suas variáveis customizadas
+@import './styles/variables';
+
+// 2. Importa o restante do Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+// Estilos globais
+body {
+    background-color: $light; 
+    padding-top: 60px;
+}

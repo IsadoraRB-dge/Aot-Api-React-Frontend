@@ -1,7 +1,14 @@
+import Hange from "../../../assets/HnageZoe.jpg";
 export const Paginicial = () => {
     return (
-        <nav >
-            <h1>oiiiii</h1>
-        </nav>
+        <article>
+            <h3>Explore os bravos soldados do universo de Shingeki no Kyojin</h3>
+            <figure> 
+                <img src = {Hange} alt = "Hange principal"/>
+            </figure>
+            <section>
+
+            </section>
+        </article>
     )
 }

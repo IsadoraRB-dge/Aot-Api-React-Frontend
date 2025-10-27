@@ -1,51 +1,127 @@
-import { useState, useEffect } from 'react';
-import type { TitanApiResponse, Titan } from "../../../types/Character";
+import { useState, useEffect, type SyntheticEvent } from 'react';
+import type { TitanApiResponse, Titan } from "../../../types/Character"; 
 
-const TITANS_API_URL = 'https://api.attackontitanapi.com/titans';
+const TITANS_API_BASE_URL = 'https://api.attackontitanapi.com/titans';
+const MAX_PAGES_TO_CHECK = 3; 
 
-// URL usada para o caso da imagem da API quebrar
 const PLACEHOLDER_IMG_URL = 'https://via.placeholder.com/350x200?text=Titan+Image+Not+Found'; 
 
+type TitansState = TitanApiResponse | null;
+
+interface InheritorCharacter {
+    id: number;
+    name: string;
+}
+
+type EnhancedTitan = Titan & {
+    inheritorName: string; 
+};
+
+const handleError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = PLACEHOLDER_IMG_URL; 
+    e.currentTarget.onerror = null; 
+};
+
+const getCleanImageUrl = (url: string): string => {
+    if (!url) return '';
+    
+    const cleanUrl = url.replace(
+        /\/revision\/latest(\/scale-to-width-down\/\d+)?(\/)?\?cb=\d+/, 
+        ''
+    ).replace(/\/thumbnail\//, '/'); 
+    
+    return cleanUrl;
+};
+
 export const Pagtitans = () => {
-    const [titanData, setTitanData] = useState<TitanApiResponse | null>(null);
+    const [titanData, setTitanData] = useState<TitansState>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const fetchTitans = async () => {
+        const fetchAllTitans = async () => {
+            let allTitans: Titan[] = [];
+            let currentPage = 1; 
+            let totalCount = 0; 
+            
             try {
-                const response = await fetch(TITANS_API_URL);
-                const data: TitanApiResponse = await response.json();
-                setTitanData(data);
+                while (currentPage <= MAX_PAGES_TO_CHECK) { 
+                    const url = `${TITANS_API_BASE_URL}?page=${currentPage}`;
+
+                    const response = await fetch(url);
+                    if (!response.ok) break;
+                    
+                    const data: TitanApiResponse = await response.json();
+                    
+                    if (!data.results || data.results.length === 0) break;
+                    
+                    allTitans = allTitans.concat(data.results);
+                    
+                    if (currentPage === 1) {
+                        totalCount = data.info.count;
+                    }
+
+                    if (totalCount > 0 && allTitans.length >= totalCount) break;
+
+                    currentPage++; 
+                }
             } catch (err) {
-                console.log(err)
-            } 
+                console.error("Erro na busca de Titãs:", err);
+            }
+            
+            const enhancedTitansPromises = allTitans.map(async (titan) => {
+                let inheritorName = titan.current_inheritor || 'N/A';
+                
+                if (titan.current_inheritor && titan.current_inheritor.startsWith('http')) {
+                    try {
+                        const inheritorResponse = await fetch(titan.current_inheritor);
+                        const inheritorData: InheritorCharacter = await inheritorResponse.json(); 
+                        
+                        inheritorName = inheritorData.name;
+                        
+                    } catch (e) {
+                        console.error(`Falha ao buscar nome do portador para ${titan.name}:`, e);
+                        inheritorName = 'Erro ao carregar';
+                    }
+                }
+
+                return { ...titan, inheritorName };
+            });
+
+            const enhancedTitans: EnhancedTitan[] = await Promise.all(enhancedTitansPromises);
+            
+            const combinedData = {
+                info: { count: totalCount || enhancedTitans.length, pages: currentPage - 1, next: null, prev: null },
+                results: enhancedTitans,
+            };
+
+            setTitanData(combinedData);
+            setIsLoading(false);
         };
 
-        fetchTitans();
+        fetchAllTitans();
     }, []);
 
-    // Função de manipulação de erro para substituir a imagem quebrada
-    const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-        e.currentTarget.src = PLACEHOLDER_IMG_URL; 
-        e.currentTarget.onerror = null; 
-    };
 
-    // Função para limpar URLs do Wikia, removendo os parâmetros de redimensionamento
-    const getCleanImageUrl = (url: string): string => {
-        if (!url) return '';
-        // Remove a parte do URL que redimensiona a imagem
-        const cleanUrl = url.replace(
-            /\/revision\/latest(\/scale-to-width-down\/\d+)?\?cb=\d+/, 
-            ''
+    if (isLoading) {
+        return (
+            <div className="container my-5 text-center">
+                <h2>Carregando Titãs...</h2>
+                <div className="spinner-border text-primary mt-3" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
         );
-        return cleanUrl;
-    };
-
+    }
+    
+    if (!titanData || titanData.results.length === 0) {
+        return <div className="container my-5 text-center">Nenhum Titã encontrado.</div>;
+    }
 
     return (
         <div className="container my-5">
-            <h1 className="text-center mb-4">Titans (Total: {titanData?.info.count})</h1>
+            <h1 className="text-center mb-4">Titans (Total: {titanData.results.length})</h1>
             <div className="row g-4">
-                {titanData?.results.map((titan: Titan) => {
+                {(titanData.results as EnhancedTitan[]).map((titan) => {
                     const safeImgSrc = titan.img ? getCleanImageUrl(titan.img) : '';
 
                     return (
@@ -56,7 +132,7 @@ export const Pagtitans = () => {
                                         src={safeImgSrc} 
                                         className="card-img-top" 
                                         alt={titan.name} 
-                                        style={{ height: '500px', objectFit: 'cover' }}  
+                                        style={{ height: '500px', objectFit: 'cover' }}  
                                         onError={handleError} 
                                     />
                                 )}
@@ -68,7 +144,7 @@ export const Pagtitans = () => {
                                     </p>
 
                                     <p className="card-text">
-                                        <span className="fw-bold">Portador Atual:</span> {titan.current_inheritor || 'N/A'}
+                                        <span className="fw-bold">Portador Atual:</span> {titan.inheritorName}
                                     </p>
                                 </div>
                             </div>

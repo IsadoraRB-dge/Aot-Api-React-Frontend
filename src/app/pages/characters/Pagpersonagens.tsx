@@ -1,50 +1,100 @@
 import { useState, useEffect, type SyntheticEvent } from 'react';
 import type { Character, CharacterApiResponse } from '../../../types/Character'; 
 
-const CHARACTERS_API_URL = 'https://api.attackontitanapi.com/characters';
+const CHARACTERS_API_BASE_URL = 'https://api.attackontitanapi.com/characters';
+const MAX_PAGES_TO_CHECK = 15; 
 
-// URL usada para o caso da imagem da API quebrar
-const PLACEHOLDER_IMG_URL = 'https://via.placeholder.com/400x400?text=Character+Image+Not+Found';
+const PLACEHOLDER_IMG_URL = 'https://via.placeholder.com/400x400?text=Image+Not+Found';
+
 type CharactersState = CharacterApiResponse | null;
 
-// Função de manipulação de erro para substituir a imagem quebrada
 const handleError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src = PLACEHOLDER_IMG_URL; 
     e.currentTarget.onerror = null; 
 };
 
-// Função para limpar URLs do Wikia, removendo os parâmetros de redimensionamento
 const getCleanImageUrl = (url: string): string => {
-    // Remove a parte do URL que redimensiona a imagem
+    if (!url) return '';
+    
+
     const cleanUrl = url.replace(
-        /\/revision\/latest(\/scale-to-width-down\/\d+)?\?cb=\d+/, 
+        /\/revision\/latest(\/scale-to-width-down\/\d+)?(\/)?\?cb=\d+/, 
         ''
     );
-    return cleanUrl;
+    const finalUrl = cleanUrl.replace(/\/thumbnail\//, '/'); 
+    
+    return finalUrl.endsWith('/') && finalUrl.length > 1 ? finalUrl.slice(0, -1) : finalUrl;
 };
+
 
 export const Pagpersonagens = () => {
     
     const [characterData, setCharacterData] = useState<CharactersState>(null);
+    const [isLoading, setIsLoading] = useState(true); 
 
     useEffect(() => {
-        const fetchCharacters = async () => {
+        const fetchAllCharacters = async () => {
+            let allCharacters: Character[] = [];
+            let currentPage = 1; 
+            let totalCharactersReported = 0; 
+
             try {
-                const response = await fetch(CHARACTERS_API_URL);
-                const data: CharacterApiResponse = await response.json();
-                setCharacterData(data); 
+                while (currentPage <= MAX_PAGES_TO_CHECK) { 
+                    const url = `${CHARACTERS_API_BASE_URL}?page=${currentPage}`;
+
+                    const response = await fetch(url);
+                    
+                    if (!response.ok) {
+                        console.error(`Falha ao buscar página ${currentPage}: ${response.status}`);
+                        break; 
+                    }
+                    
+                    const data: CharacterApiResponse = await response.json();
+                    
+                    if (!data.results || data.results.length === 0) {
+                        console.log(`Fim da lista atingido na página ${currentPage}.`);
+                        break; 
+                    }
+                    
+                    allCharacters = allCharacters.concat(data.results);
+                    
+                    if (currentPage === 1) {
+                        totalCharactersReported = data.info.count;
+                    }
+
+                    if (totalCharactersReported > 0 && allCharacters.length >= totalCharactersReported) {
+                         break;
+                    }
+
+                    currentPage++; 
+                } 
+
+                const combinedData: CharacterApiResponse = {
+                    info: {
+                        count: totalCharactersReported || allCharacters.length, 
+                        pages: currentPage - 1, 
+                        prev: null, 
+                        next: null, 
+                    },
+                    results: allCharacters, 
+                };
+
+                setCharacterData(combinedData); 
+
             } catch (err) {
-                console.error("Erro ao buscar personagens:", err);
-            } 
+                console.error("Erro na busca de páginas:", err);
+            } finally {
+                setIsLoading(false); 
+            }
         };
 
-        fetchCharacters();
+        fetchAllCharacters();
     }, []);
 
-    if (!characterData) {
+    if (isLoading) {
         return (
             <div className="container my-5 text-center">
-                <h2>Carregando Personagens...</h2>
+                <h2>Carregando Todos os Personagens...</h2>
                 <div className="spinner-border text-primary mt-3" role="status">
                     <span className="visually-hidden">Loading...</span>
                 </div>
@@ -52,15 +102,22 @@ export const Pagpersonagens = () => {
         );
     }
 
+    if (!characterData || characterData.results.length === 0) {
+        return (
+             <div className="container my-5 text-center alert alert-danger">
+                Não foi possível carregar os personagens. Tente novamente mais tarde.
+            </div>
+        );
+    }
+
     return (
         <div className="container my-5">
             <h1 className="text-center mb-4">
-                Personagens (Total: {characterData?.info.count})
+                Todos os Personagens (Total: {characterData?.results.length})
             </h1>
             
             <div className="row g-4">
                 {characterData?.results.map((character: Character) => {
-                    // Tratamento TypeScript e Limpeza do URL
                     const safeImgSrc = character.img 
                         ? getCleanImageUrl(character.img) 
                         : '';
@@ -104,3 +161,4 @@ export const Pagpersonagens = () => {
         </div>
     )
 }
+

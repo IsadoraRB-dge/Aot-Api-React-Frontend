@@ -1,5 +1,9 @@
 import { Link } from 'react-router-dom';
 import Hange from "../../../assets/HnageZoe.jpg";
+import Aotcarrosel01 from "../../../assets/aot-carrosel01.jpg";
+import Aotcarrosel02 from "../../../assets/aot-carrosel02.jpg";
+import Aotcarrosel03 from "../../../assets/aot-carrosel03.jpg";
+
 
 export const Paginicial = () => {
     return (
@@ -20,7 +24,7 @@ export const Paginicial = () => {
                         
                         <div className="carousel-item active" data-bs-interval="10000">
                             <img 
-                                src={Hange} 
+                                src={Aotcarrosel01} 
                                 className="d-block w-100" 
                                 alt="Cena de Attack on Titan 1"
                             />
@@ -28,7 +32,7 @@ export const Paginicial = () => {
                     
                         <div className="carousel-item" data-bs-interval="2000">
                             <img 
-                                src={Hange} 
+                                src={Aotcarrosel02} 
                                 className="d-block w-100" 
                                 alt="Cena de Attack on Titan 2"
                             />
@@ -36,7 +40,7 @@ export const Paginicial = () => {
                         
                         <div className="carousel-item">
                             <img 
-                                src={Hange} 
+                                src={Aotcarrosel03} 
                                 className="d-block w-100" 
                                 alt="Cena de Attack on Titan 3"
                             />

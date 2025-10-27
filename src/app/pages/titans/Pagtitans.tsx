@@ -1,7 +1,8 @@
 import { useState, useEffect, type SyntheticEvent } from 'react';
-import type { TitanApiResponse, Titan } from "../../../types/Character"; 
+import type { TitanApiResponse, Titan } from "../../../types/Character";
+import { BaseUrl } from '../../shared/constants/variaveis';
 
-const TITANS_API_BASE_URL = 'https://api.attackontitanapi.com/titans';
+
 const MAX_PAGES_TO_CHECK = 3; 
 
 const PLACEHOLDER_IMG_URL = 'https://via.placeholder.com/350x200?text=Titan+Image+Not+Found'; 
@@ -45,7 +46,7 @@ export const Pagtitans = () => {
             
             try {
                 while (currentPage <= MAX_PAGES_TO_CHECK) { 
-                    const url = `${TITANS_API_BASE_URL}?page=${currentPage}`;
+                    const url = `${BaseUrl}/titans?page=${currentPage}`;
 
                     const response = await fetch(url);
                     if (!response.ok) break;

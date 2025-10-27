@@ -119,31 +119,30 @@ export const Pagtitans = () => {
 
     return (
         <div className="container my-5">
-            <h1 className="text-center mb-4">Titans (Total: {titanData.results.length})</h1>
+            <h1 className="text-start mb-4 fs-4">Titans (Total: {titanData.results.length})</h1>
             <div className="row g-4">
                 {(titanData.results as EnhancedTitan[]).map((titan) => {
                     const safeImgSrc = titan.img ? getCleanImageUrl(titan.img) : '';
 
                     return (
-                        <div key={titan.id} className="col-lg-4 col-md-6">
+                        <div key={titan.id} className="col-lg-3 col-md-6">
                             <div className="card h-100 shadow-sm titan-card">
                                 {titan.img && (
                                     <img 
                                         src={safeImgSrc} 
-                                        className="card-img-top" 
+                                        className="img-card-padrao" 
                                         alt={titan.name} 
-                                        style={{ height: '500px', objectFit: 'cover' }}  
                                         onError={handleError} 
                                     />
                                 )}
-                                <div className="card-body">
-                                    <h5 className="card-title text-primary">{titan.name}</h5>
+                                <div className="card-body bg-secondary">
+                                    <h5 className="card-title text-primary text-white">{titan.name}</h5>
 
-                                    <p className="card-text">
+                                    <p className="card-text text-white">
                                         <span className="fw-bold">Altura:</span> {titan.height}
                                     </p>
 
-                                    <p className="card-text">
+                                    <p className="card-text text-white">
                                         <span className="fw-bold">Portador Atual:</span> {titan.inheritorName}
                                     </p>
                                 </div>

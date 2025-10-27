@@ -1,7 +1,7 @@
 import { useState, useEffect, type SyntheticEvent } from 'react';
 import type { Character, CharacterApiResponse } from '../../../types/Character'; 
+import { BaseUrl } from '../../shared/constants/variaveis';
 
-const CHARACTERS_API_BASE_URL = 'https://api.attackontitanapi.com/characters';
 const MAX_PAGES_TO_CHECK = 15; 
 
 const PLACEHOLDER_IMG_URL = 'https://via.placeholder.com/400x400?text=Image+Not+Found';
@@ -40,7 +40,7 @@ export const Pagpersonagens = () => {
 
             try {
                 while (currentPage <= MAX_PAGES_TO_CHECK) { 
-                    const url = `${CHARACTERS_API_BASE_URL}?page=${currentPage}`;
+                    const url = `${BaseUrl}/characters?page=${currentPage}`;
 
                     const response = await fetch(url);
                     

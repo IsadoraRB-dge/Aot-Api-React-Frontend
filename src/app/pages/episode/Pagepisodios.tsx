@@ -1,7 +1,8 @@
 import { useState, useEffect, type SyntheticEvent } from 'react';
 import type { EpisodeApiResponse, Episode } from "../../../types/Character";
+import { BaseUrl } from '../../shared/constants/variaveis';
 
-const EPISODES_API_BASE_URL = 'https://api.attackontitanapi.com/episodes';
+
 const MAX_PAGES_TO_CHECK = 6; 
 
 const PLACEHOLDER_IMG_URL = 'https://via.placeholder.com/400x225?text=Episode+Image+Not+Found'; 
@@ -36,7 +37,7 @@ export const Pagepisodios = () => {
             try {
                 while (currentPage <= MAX_PAGES_TO_CHECK) { 
                     
-                    const url = `${EPISODES_API_BASE_URL}?page=${currentPage}`;
+                    const url = `${BaseUrl}/episodes?page=${currentPage}`;
 
                     const response = await fetch(url);
                     

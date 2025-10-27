@@ -31,18 +31,48 @@ body {
 .img-hange-thumb {
 
     // 1. Define o tamanho desejado (ex: 200px por 200px)
-    width: 200px; 
-    height: 200px;
+    width: 500px; 
+    height: auto;
+    max-height: 450;
     
     // 2. Garante que a imagem preencha o espaço sem distorcer (cortando as bordas se necessário)
     object-fit: cover; 
     
     // 3. Opcional: Borda arredondada completa para um visual de avatar
-    border-radius: 50%;
+    border-radius: 30px;
 
 }
 
 .img-card-padrao{
-    height: 250px;
+    height: 350px;
     object-fit: cover;
+}
+
+
+.img-episode-padrao {
+    height: 250px; 
+    
+    width: 100%; // Garante que preencha o card
+    object-fit: cover; // Essencial para não distorcer
+    
+}
+
+$carousel-height: 400px; 
+
+.carousel-limitado {
+    // Limita a altura do contêiner principal do carrossel
+    max-height: $carousel-height; 
+    overflow: hidden; 
+    
+    // Anula o arredondamento de borda em telas grandes se o overflow cortar
+    border-radius: 0;
+
+    // Estilos aplicados às imagens dentro deste carrossel
+    .carousel-inner .carousel-item img {
+        // Força a imagem a ter a altura definida
+        height: $carousel-height;
+        
+        // Garante que a imagem preencha o espaço sem distorcer, cortando as bordas
+        object-fit: cover; 
+    }
 }

@@ -1,4 +1,4 @@
-
+import { Link } from 'react-router-dom';
 import Hange from "../../../assets/HnageZoe.jpg";
 
 export const Paginicial = () => {
@@ -11,30 +11,87 @@ export const Paginicial = () => {
                     Explore o denso e enigmático universo de Shingeki no Kyojin
 
                 </h3>
-                
-                <figure> 
-                    <img 
-                        src={Hange} 
-                        alt="Hange principal"
-                        className="img-fluid img-hange-thumb float-start me-3" 
-                    />
-                </figure>
-                
-                <section>
-                    <p>
-                        Shingeki no Kyojin (Ataque dos Titãs) é um universo repleto 
-                        de personagens complexos, como Hange Zoë, a líder de esquadrão 
-                        que dedicou sua vida ao estudo e combate aos Titãs. 
-                        A curiosidade e a inteligência de Hange são cruciais 
-                        para a sobrevivência da humanidade. 
-                        Navegue pelas seções para descobrir mais sobre os 
-                        personagens, seus episódios mais marcantes e os mistérios 
-                        dos Titãs!
-                    </p>
+
+                <div id="carouselExampleInterval" 
+                    className="carousel slide mb-5 carousel-limitado" 
+                    data-bs-ride="carousel">
+
+                    <div className="carousel-inner">
+                        
+                        <div className="carousel-item active" data-bs-interval="10000">
+                            <img 
+                                src={Hange} 
+                                className="d-block w-100" 
+                                alt="Cena de Attack on Titan 1"
+                            />
+                        </div>
                     
-                </section>
+                        <div className="carousel-item" data-bs-interval="2000">
+                            <img 
+                                src={Hange} 
+                                className="d-block w-100" 
+                                alt="Cena de Attack on Titan 2"
+                            />
+                        </div>
+                        
+                        <div className="carousel-item">
+                            <img 
+                                src={Hange} 
+                                className="d-block w-100" 
+                                alt="Cena de Attack on Titan 3"
+                            />
+                        </div>
+
+                    </div>
                 
-                <div className="clearfix"></div> 
+                    <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span className="visually-hidden">Previous</span>
+                    </button>
+                
+                    <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span className="visually-hidden">Next</span>
+                    </button>
+                </div>
+               
+                <div className="row align-items-center">
+                
+                    <div className="col-md-auto h-100">
+                        <figure className="mb-0"> 
+                            <img 
+                                src={Hange} 
+                                alt="Hange principal"
+                                className="img-fluid img-hange-thumb me-3" 
+                            />
+                        </figure>
+
+                        <div className="d-grid gap-2 mt-3"> 
+                            <Link to="/characters" className="btn btn-primary btn-md">
+                                Conheça outros personagens
+                            </Link>
+                        </div>
+                    </div>
+            
+                    <div className="col d-flex align-items-center h-100">  
+
+                        <section className ="w-100">
+                            <p>
+                                Shingeki no Kyojin (Ataque dos Titãs) 
+                                é um universo repleto de histórias intensas e personagens marcantes.
+                                Esta página serve como um guia para conhecer melhor o anime, apresentando 
+                                informações sobre os personagens, os Titãs e os episódios que compõem essa jornada épica. 
+                                Explore as seções e mergulhe no mundo de Attack on Titan!
+                            </p>                          
+
+                            <p>
+                                Hange Zoë (Personagem ao lado) é uma das mentes mais brilhantes e curiosas do Corpo de Exploração. 
+                                Apaixonada por entender os Titãs, ela combina inteligência, coragem e empatia,
+                                sendo essencial na luta pela sobrevivência da humanidade.
+                            </p>
+                        </section>
+                    </div>  
+            </div>
 
             </article>
         </div>

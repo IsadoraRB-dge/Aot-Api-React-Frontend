@@ -112,7 +112,7 @@ export const Pagpersonagens = () => {
 
     return (
         <div className="container my-5">
-            <h1 className="text-center mb-4">
+            <h1 className="text-start mb-4 fs-4">
                 Todos os Personagens (Total: {characterData?.results.length})
             </h1>
             
@@ -124,31 +124,30 @@ export const Pagpersonagens = () => {
                     const showImage = safeImgSrc && safeImgSrc.length > 0;
 
                     return (
-                        <div key={character.id} className="col-lg-4 col-md-6">
+                        <div key={character.id} className="col-lg-3 col-md-6">
                             <div className="card h-100 shadow-sm character-card">
                             
                                 {showImage ? (
                                     <img 
                                         src={safeImgSrc} 
-                                        className="card-img-top" 
+                                        className="card-img-top img-card-padrao" 
                                         alt={character.name}
-                                        style={{ height: '250px', objectFit: 'cover' }}
                                         onError={handleError} 
                                     />
                                 ) : (
-                                    <div className="d-flex align-items-center justify-content-center bg-light" style={{ height: '250px' }}>
+                                    <div className="d-flex align-items-center justify-content-center bg-light" style={{ height: '200px' }}>
                                         <p className="text-muted small">Sem Imagem</p>
                                     </div>
                                 )}
 
-                                <div className="card-body">
-                                    <h5 className="card-title text-primary">{character.name}</h5>
+                                <div className="card-body bg-secondary">
+                                    <h5 className="card-title text-primary text-white">{character.name}</h5>
                                     
-                                    <p className="card-text mb-1">
+                                    <p className="card-text mb-1 text-white">
                                         <span className="fw-bold">ID:</span> {character.id}
                                     </p>
 
-                                    <p className="card-text mb-1">
+                                    <p className="card-text mb-1 text-white">
                                         <span className="fw-bold">Gênero:</span> {character.gender || 'N/A'}
                                     </p>
                                     

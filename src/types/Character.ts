@@ -20,8 +20,8 @@ export interface Episode {
   img: string;
   name: string;         
   number: string;      
-  season: number;       
-  air_date: string;     
+  season: number;
+  episode: string;           
 }
 
 export interface EpisodeApiInfo {

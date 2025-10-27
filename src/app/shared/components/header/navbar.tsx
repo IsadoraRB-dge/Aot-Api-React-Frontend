@@ -31,11 +31,11 @@ export const Navbar = () => {
                         </li>
                         
                         <li className="nav-item">
-                            <Link className="btn-nav-custom" to='/Episodes'>Episodes</Link>
+                            <Link className="nav-link" to='/Episodes'>Episodes</Link>
                         </li>
                         
                         <li className="nav-item">
-                            <Link className="btn-nav-custom" to='/Titans'>Titans</Link>
+                            <Link className="nav-link" to='/Titans'>Titans</Link>
                         </li>
 
                     </ul>

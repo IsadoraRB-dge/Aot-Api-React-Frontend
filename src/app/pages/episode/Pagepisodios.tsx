@@ -108,28 +108,28 @@ export const Pagepisodios = () => {
 
     return (
         <div className="container my-5">
-            <h1 className="text-center mb-4">
+            <h1 className="text-start mb-4 fs-4">
                 Lista de Episódios (Total: {episodeData.results.length})
             </h1>
-            <p className="text-center text-muted">Guia completo de episódios da série Attack on Titan</p>
+            <p className="text-start text-muted">Lista com todos os episódios de Attack on Titan em ordem cronológica e por nome</p>
             
             <div className="row">
-                {episodeData.results.map((episode: Episode) => { 
+                {episodeData.results.map((ep: Episode) => { 
                     
-                    const safeImgSrc = episode.img 
-                        ? getCleanImageUrl(episode.img) 
+                    const safeImgSrc = ep.img 
+                        ? getCleanImageUrl(ep.img) 
                         : '';
                     const showImage = safeImgSrc && safeImgSrc.length > 0;
 
                     return (
-                        <div key={episode.id} className="col-12 col-md-6 mb-4">
+                        <div key={ep.id} className="col-12 col-md-6 col-lg-3 mb-4">
                             <div className="card shadow-sm h-100">
-                                <div className="card-body">
+                                <div className="card-body bg-secondary ">
                                     {showImage ? (
                                         <img 
                                             src={safeImgSrc} 
-                                            alt={`Capa do Episódio ${episode.number}: ${episode.name}`} 
-                                            style={{ width: '100%', height: 'auto', maxHeight: '250px', objectFit: 'cover', marginBottom: '15px' }}
+                                            alt={`Capa do Episódio ${ep.number}: ${ep.name}`}
+                                            className="img-episode-padrao"
                                             onError={handleError} 
                                         />
                                     ) : (
@@ -137,13 +137,9 @@ export const Pagepisodios = () => {
                                             Sem Imagem
                                         </div>
                                     )}
-
-                                    <h5 className="card-title text-primary">{episode.name}</h5>
-                                    <h6 className="card-subtitle mb-2 text-muted">Episódio: {episode.number}</h6>
-                                    
-                                    <p className="card-text mb-1"><span className="fw-bold">Temporada:</span> {episode.season}</p>
-                                    <p className="card-text mb-1"><span className="fw-bold">Data de Lançamento:</span> {episode.air_date || 'N/A'}</p>
-                                </div>
+                                    <h5 className="card-title text-primary text-white">{ep.name}</h5>
+                                    <p className="card-title text-primary text-white"> {ep.episode} </p>
+                                  </div>
                             </div>
                         </div>
                     );

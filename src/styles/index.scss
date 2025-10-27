@@ -1,0 +1,43 @@
+// 1. Deve vir PRIMEIRO: Importa suas variáveis customizadas
+@import './variables.scss';
+
+// 2. Importa o restante do Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+// Estilos globais
+body {
+    background-color: $nav-footer; 
+    padding-top: 60px;
+}
+
+.btn-nav-custom {
+    display: inline-block; // Essencial para que os paddings e margens funcionem como botão
+    padding: 0.5rem 1rem;  // Padding interno do botão
+    margin-left: 0.5rem;   // Margem entre os botões
+    border-radius: 99999px; // Bordas arredondadas
+    text-decoration: none; // Remover sublinhado do link
+    font-weight: bold;     // Texto em negrito
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out; // Animação suave
+
+    // Cores (usando suas variáveis de tema)
+    background-color: $secondary; // Fundo transparente por padrão
+    color: rgb(241, 234, 234); // Cor do texto dos links do Navbar escuro
+    border: 1px solid $secondary; // Borda branca
+  
+}
+
+.img-hange-thumb {
+
+    // 1. Define o tamanho desejado (ex: 200px por 200px)
+    width: 200px; 
+    height: 200px;
+    
+    // 2. Garante que a imagem preencha o espaço sem distorcer (cortando as bordas se necessário)
+    object-fit: cover; 
+    
+    // 3. Opcional: Borda arredondada completa para um visual de avatar
+    border-radius: 50%;
+
+}

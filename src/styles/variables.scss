@@ -2,13 +2,12 @@
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
 
-// Defina suas CORES TEMA AQUI
-$primary: #4F6D59;     // Seu verde customizado
-$secondary: #8E7A5A;   // Seu marrom customizado
-$light: #F7F7F7;       // Seu cinza claro
+// Cores
+$primary: #363636;     
+$secondary: #4F4F4F;  
+$light: #F7F7F7;      
 $nav-footer: #696969;
 
-// Sobrescreve o mapa de cores padrão do Bootstrap
 $custom-theme-colors: (
   "primary": $primary,
   "secondary": $secondary,

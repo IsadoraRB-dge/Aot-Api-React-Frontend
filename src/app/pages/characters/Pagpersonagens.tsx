@@ -1,71 +1,105 @@
-import {useState, useEffect} from 'react';
-import type { Character } from '../../../types/Character';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect, type SyntheticEvent } from 'react';
+import type { Character, CharacterApiResponse } from '../../../types/Character'; 
 
-const { id } = useParams<{ id: string }>();
-const CHARACTER_API_URL = `https://api.attackontitanapi.com/characters/${id}`
+const CHARACTERS_API_URL = 'https://api.attackontitanapi.com/characters';
 
-const initialCharacterState: Character = {
-  id: 0,
-  name: 'Carregando...',
-  gender: '',
-  img: '',
+// URL usada para o caso da imagem da API quebrar
+const PLACEHOLDER_IMG_URL = 'https://via.placeholder.com/400x400?text=Character+Image+Not+Found';
+type CharactersState = CharacterApiResponse | null;
+
+// Função de manipulação de erro para substituir a imagem quebrada
+const handleError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.src = PLACEHOLDER_IMG_URL; 
+    e.currentTarget.onerror = null; 
 };
+
+// Função para limpar URLs do Wikia, removendo os parâmetros de redimensionamento
+const getCleanImageUrl = (url: string): string => {
+    // Remove a parte do URL que redimensiona a imagem
+    const cleanUrl = url.replace(
+        /\/revision\/latest(\/scale-to-width-down\/\d+)?\?cb=\d+/, 
+        ''
+    );
+    return cleanUrl;
+};
+
 export const Pagpersonagens = () => {
-    const [character, setCharacter] = useState<Character>(initialCharacterState);
+    
+    const [characterData, setCharacterData] = useState<CharactersState>(null);
 
     useEffect(() => {
-        const fetchCharacter = async () => {
+        const fetchCharacters = async () => {
             try {
-                const response = await fetch(CHARACTER_API_URL);
-                const data: Character = await response.json();
-                setCharacter(data);  
+                const response = await fetch(CHARACTERS_API_URL);
+                const data: CharacterApiResponse = await response.json();
+                setCharacterData(data); 
             } catch (err) {
-                console.error("Erro ao buscar o personagem:", err);
+                console.error("Erro ao buscar personagens:", err);
             } 
         };
 
-        fetchCharacter();
+        fetchCharacters();
     }, []);
+
+    if (!characterData) {
+        return (
+            <div className="container my-5 text-center">
+                <h2>Carregando Personagens...</h2>
+                <div className="spinner-border text-primary mt-3" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="container my-5">
-            <h1 className="text-center mb-4">{character.name}</h1>
+            <h1 className="text-center mb-4">
+                Personagens (Total: {characterData?.info.count})
+            </h1>
             
-            <div className="card shadow-lg">
-                <div className="row g-0">
-                    <div className="col-md-4">
-                        {character.img ? (
-                             <img 
-                                src={character.img} 
-                                className="img-fluid rounded-start" 
-                                alt= "imagem_personagens"
-                                style={{ maxHeight: '400px', width: '100%', objectFit: 'cover' }}
-                            />
-                        ) : (
-                            <div className="d-flex align-items-center justify-content-center bg-light" style={{ height: '400px' }}>
-                                <p className="text-muted">Sem Imagem</p>
-                            </div>
-                        )}
-                    </div>
-                    
-                    <div className="col-md-8">
-                        <div className="card-body">
-                            <h2 className="card-title border-bottom pb-2 mb-3">{character.name}</h2>
-                            
-                            <p className="card-text">
-                                <span className="fw-bold">ID:</span> {character.id}
-                            </p>
+            <div className="row g-4">
+                {characterData?.results.map((character: Character) => {
+                    // Tratamento TypeScript e Limpeza do URL
+                    const safeImgSrc = character.img 
+                        ? getCleanImageUrl(character.img) 
+                        : '';
+                    const showImage = safeImgSrc && safeImgSrc.length > 0;
 
-                            <p className="card-text">
-                                <span className="fw-bold">Gênero:</span> {character.gender || 'N/A'}
-                            </p>
-                            <div className="mt-4">
-                                <a href="#" className="btn btn-primary">Voltar</a> {/**Lembrar do botão de voltar */}
+                    return (
+                        <div key={character.id} className="col-lg-4 col-md-6">
+                            <div className="card h-100 shadow-sm character-card">
+                            
+                                {showImage ? (
+                                    <img 
+                                        src={safeImgSrc} 
+                                        className="card-img-top" 
+                                        alt={character.name}
+                                        style={{ height: '250px', objectFit: 'cover' }}
+                                        onError={handleError} 
+                                    />
+                                ) : (
+                                    <div className="d-flex align-items-center justify-content-center bg-light" style={{ height: '250px' }}>
+                                        <p className="text-muted small">Sem Imagem</p>
+                                    </div>
+                                )}
+
+                                <div className="card-body">
+                                    <h5 className="card-title text-primary">{character.name}</h5>
+                                    
+                                    <p className="card-text mb-1">
+                                        <span className="fw-bold">ID:</span> {character.id}
+                                    </p>
+
+                                    <p className="card-text mb-1">
+                                        <span className="fw-bold">Gênero:</span> {character.gender || 'N/A'}
+                                    </p>
+                                    
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    );
+                })}
             </div>
         </div>
     )

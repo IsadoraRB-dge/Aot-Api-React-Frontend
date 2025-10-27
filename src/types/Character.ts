@@ -5,6 +5,16 @@ export interface Character {
   img: string;
 }
 
+export interface CharacterApiResponse {
+    info: {
+        count: number;
+        pages: number;
+        next: string | null;
+        prev: string | null;
+    };
+    results: Character[]; 
+  }
+  
 export interface Episode {
   id: number;           
   img: string;

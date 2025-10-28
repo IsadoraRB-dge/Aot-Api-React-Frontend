@@ -7,14 +7,17 @@ import Aotcarrosel03 from "../../../assets/aot-carrosel03.jpg";
 
 export const Paginicial = () => {
     return (
-        // Use um container do Bootstrap para dar padding nas laterais
+        
         <div className="container my-5"> 
             <article>
                 
-                <h3 className="text-center bg-secondary text-white py-3 mb-4">
-                    Explore o denso e enigmático universo de Shingeki no Kyojin
+                <div className="text-center">
+                    <h5 className="title-banner-custom">
 
-                </h3>
+                        Explore o denso e enigmático universo de Shingeki no Kyojin
+
+                    </h5>
+                </div>
 
                 <div id="carouselExampleInterval" 
                     className="carousel slide mb-5 carousel-limitado" 
@@ -61,35 +64,35 @@ export const Paginicial = () => {
                
                 <div className="row align-items-center">
                 
-                    <div className="col-md-auto h-100">
-                        <figure className="mb-0"> 
+                    <div className="col-12 col-lg-auto me-3">
+
+                        <figure className="mb-0 text-center text-lg-start"> 
                             <img 
                                 src={Hange} 
                                 alt="Hange principal"
-                                className="img-fluid img-hange-thumb me-3" 
+                                className="img-fluid img-hange-thumb" 
                             />
                         </figure>
-
-                        <div className="d-grid gap-2 mt-3"> 
+                    
+                        <div className="d-grid gap-2 mt-3 mb-4 mb-lg-0"> 
                             <Link to="/characters" className="btn btn-primary btn-md">
                                 Conheça outros personagens
                             </Link>
                         </div>
                     </div>
             
-                    <div className="col d-flex align-items-center h-100">  
+                    <div className="col">  
 
-                        <section className ="w-100">
-                            <p>
+                        <section>
+                            <p className="mb-4">
                                 Shingeki no Kyojin (Ataque dos Titãs) 
                                 é um universo repleto de histórias intensas e personagens marcantes.
                                 Esta página serve como um guia para conhecer melhor o anime, apresentando 
                                 informações sobre os personagens, os Titãs e os episódios que compõem essa jornada épica. 
                                 Explore as seções e mergulhe no mundo de Attack on Titan!
                             </p>                          
-
                             <p>
-                                Hange Zoë (Personagem ao lado) é uma das mentes mais brilhantes e curiosas do Corpo de Exploração. 
+                                Hange Zoë (Personagem na imagem) é uma das mentes mais brilhantes e curiosas do Corpo de Exploração. 
                                 Apaixonada por entender os Titãs, ela combina inteligência, coragem e empatia,
                                 sendo essencial na luta pela sobrevivência da humanidade.
                             </p>

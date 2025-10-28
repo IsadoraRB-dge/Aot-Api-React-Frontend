@@ -5,7 +5,18 @@ export const Navbar = () => {
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" >
             <div className="container-fluid">
                 
-                <Link className="navbar-brand" to="/">Meu App</Link>
+                <Link className="navbar-brand d-flex align-items-center" to="/">
+                    
+                    <img 
+                        src="/public/logo.png" 
+                        alt="Logo do Aplicativo" 
+                        width="30" 
+                        height="30" 
+                        className="d-inline-block align-top me-2" 
+                    />
+                    <span className="text-logo-color">Shingeki no Kyojin</span>
+
+                </Link>
 
                 <button 
                     className="navbar-toggler" 
@@ -22,19 +33,19 @@ export const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarNav">
                 
                     <ul className="navbar-nav ms-auto"> 
-                        <li className="nav-item">
-                            <Link className="nav-link" to='/'>Home</Link>
+                        <li className="nav-item ms-4">
+                            <Link className="nav-link" to='/'>Sobre</Link>
                         </li>
                         
-                        <li className="nav-item">
-                            <Link className="nav-link" to='/Characters'>Characters</Link>
+                        <li className="nav-item ms-4">
+                            <Link className="nav-link" to='/Characters'>Personagens</Link>
                         </li>
                         
-                        <li className="nav-item">
-                            <Link className="nav-link" to='/Episodes'>Episodes</Link>
+                        <li className="nav-item ms-4">
+                            <Link className="nav-link" to='/Episodes'>Episódios</Link>
                         </li>
                         
-                        <li className="nav-item">
+                        <li className="nav-item ms-4">
                             <Link className="nav-link" to='/Titans'>Titans</Link>
                         </li>
 

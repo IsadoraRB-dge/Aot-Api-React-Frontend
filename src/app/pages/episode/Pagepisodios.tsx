@@ -91,7 +91,7 @@ export const Pagepisodios = () => {
     if (isLoading) {
         return (
             <div className="container my-5 text-center">
-                <h2>Carregando Episódios...</h2>
+                <h4>Carregando Episódios...</h4>
                 <div className="spinner-border text-primary mt-3" role="status">
                     <span className="visually-hidden">Loading...</span>
                 </div>

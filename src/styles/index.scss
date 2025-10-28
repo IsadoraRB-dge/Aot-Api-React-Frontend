@@ -1,44 +1,49 @@
-// 1. Deve vir PRIMEIRO: Importa suas variáveis customizadas
 @import './variables.scss';
-
-// 2. Importa o restante do Bootstrap
 @import 'bootstrap/scss/bootstrap';
 
-// Estilos globais
 body {
     background-color: $nav-footer; 
     padding-top: 60px;
 }
 
 .btn-nav-custom {
-    display: inline-block; // Essencial para que os paddings e margens funcionem como botão
-    padding: 0.5rem 1rem;  // Padding interno do botão
-    margin-left: 0.5rem;   // Margem entre os botões
-    border-radius: 99999px; // Bordas arredondadas
-    text-decoration: none; // Remover sublinhado do link
-    font-weight: bold;     // Texto em negrito
+    display: inline-block; 
+    padding: 0.5rem 1rem;  
+    margin-left: 0.5rem;   
+    border-radius: 99999px; 
+    text-decoration: none; 
+    font-weight: bold;     
     text-align: center;
     cursor: pointer;
-    transition: all 0.2s ease-in-out; // Animação suave
+    transition: all 0.2s ease-in-out; 
 
-    // Cores (usando suas variáveis de tema)
-    background-color: $secondary; // Fundo transparente por padrão
-    color: rgb(241, 234, 234); // Cor do texto dos links do Navbar escuro
-    border: 1px solid $secondary; // Borda branca
+    background-color: $secondary; 
+    color: rgb(241, 234, 234); 
+    border: 1px solid $secondary; 
   
+}
+
+.title-banner-custom {
+  
+    background-color: $secondary; 
+    color: white; 
+    
+    display: inline-block;
+    padding: 1rem 1.5rem; 
+    margin-bottom: 1.5rem; 
+    border-radius: 50rem; 
+    font-weight: 700;
+    text-align: center;
 }
 
 .img-hange-thumb {
 
-    // 1. Define o tamanho desejado (ex: 200px por 200px)
-    width: 500px; 
+
+    width: 100%;
+    max-width: 500px;
     height: auto;
-    max-height: 450;
-    
-    // 2. Garante que a imagem preencha o espaço sem distorcer (cortando as bordas se necessário)
+    max-height: 450px;
     object-fit: cover; 
-    
-    // 3. Opcional: Borda arredondada completa para um visual de avatar
     border-radius: 30px;
 
 }
@@ -51,28 +56,21 @@ body {
 
 .img-episode-padrao {
     height: 250px; 
-    
-    width: 100%; // Garante que preencha o card
-    object-fit: cover; // Essencial para não distorcer
+    width: 100%; 
+    object-fit: contain; 
     
 }
 
-$carousel-height: 400px; 
 
 .carousel-limitado {
-    // Limita a altura do contêiner principal do carrossel
     max-height: $carousel-height; 
     overflow: hidden; 
-    
-    // Anula o arredondamento de borda em telas grandes se o overflow cortar
     border-radius: 0;
 
-    // Estilos aplicados às imagens dentro deste carrossel
     .carousel-inner .carousel-item img {
-        // Força a imagem a ter a altura definida
+    
         height: $carousel-height;
-        
-        // Garante que a imagem preencha o espaço sem distorcer, cortando as bordas
-        object-fit: cover; 
+        object-fit: contain;
+        width: 100%;
     }
 }

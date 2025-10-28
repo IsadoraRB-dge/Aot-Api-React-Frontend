@@ -94,7 +94,7 @@ export const Pagpersonagens = () => {
     if (isLoading) {
         return (
             <div className="container my-5 text-center">
-                <h2>Carregando Todos os Personagens...</h2>
+                <h4>Carregando Todos os Personagens...</h4>
                 <div className="spinner-border text-primary mt-3" role="status">
                     <span className="visually-hidden">Loading...</span>
                 </div>

@@ -7,11 +7,15 @@ $primary: #363636;
 $secondary: #4F4F4F;  
 $light: #F7F7F7;      
 $nav-footer: #696969;
+$logo-text-color: #000000;
+
+$carousel-height: 500px;
 
 $custom-theme-colors: (
   "primary": $primary,
   "secondary": $secondary,
   "nav-footer": $nav-footer,
+  "logo-color": $logo-text-color
 );
 
 $theme-colors: map-merge($theme-colors, $custom-theme-colors);
